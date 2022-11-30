@@ -1,0 +1,16 @@
+services:
+    pg:
+        image: postgres:14.4-bullseye
+        container_name: pg.${COMPOSE_PROJECT_NAME}.docker
+        restart: unless-stopped
+        environment:
+            - POSTGRES_USER=${DB_USER}
+            - POSTGRES_PASSWORD=${DB_PASSWORD}
+            - POSTGRES_DB=${DB_NAME}
+        ports:
+            - "5432:5432"
+        volumes:
+            - hoof.pg.data:/var/lib/pgsql/data
+
+volumes:
+    hoof.pg.data:
