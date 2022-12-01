@@ -32,8 +32,8 @@ model Address {
   client   Client? @relation(fields: [clientId], references: [id])
   clientId String? @unique
 
-  invoice   Invoice @relation(fields: [invoiceId], references: [id])
-  invoiceId String  @unique
+  invoice   Invoice? @relation(fields: [invoiceId], references: [id])
+  invoiceId String?  @unique
 }
 
 model Client {
