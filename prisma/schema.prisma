@@ -14,4 +14,60 @@ model User {
   id       String @id @default(uuid())
   email    String @unique
   password String
+
+  addresses Address[]
+  Client    Client[]
+}
+
+model Address {
+  id String @id @default(uuid())
+
+  streetAddress String
+  city          String
+  postCode      String
+  country       String
+  user          User?   @relation(fields: [userId], references: [id])
+  userId        String?
+
+  client   Client? @relation(fields: [clientId], references: [id])
+  clientId String? @unique
+
+  invoice   Invoice @relation(fields: [invoiceId], references: [id])
+  invoiceId String  @unique
+}
+
+model Client {
+  id String @id @default(uuid())
+
+  name    String
+  email   String
+  address Address?
+  invoice Invoice[]
+  user    User      @relation(fields: [userId], references: [id])
+  userId  String
+}
+
+model Invoice {
+  id String @id @default(uuid())
+
+  address Address?
+
+  Client   Client? @relation(fields: [clientId], references: [id])
+  clientId String?
+
+  date               DateTime @default(now())
+  paymentTerms       String
+  projectDescription String
+  items              Item[]
+}
+
+model Item {
+  id String @id @default(uuid())
+
+  name     String
+  quantity Int
+  price    Float
+
+  invoice   Invoice @relation(fields: [invoiceId], references: [id])
+  invoiceId String
 }
