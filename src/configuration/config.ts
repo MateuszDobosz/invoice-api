@@ -8,4 +8,6 @@ export default () => ({
     port: parseInt(process.env.DATABASE_PORT, 10) || 5432,
     url: process.env.DATABASE_URL,
   },
+  jwtSecret: process.env.JWT_SECRET,
+  bcryptSalt: parseInt(process.env.BCRYPT_SALT, 10) || 10,
 });
