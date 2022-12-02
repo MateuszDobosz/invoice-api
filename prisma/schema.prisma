@@ -16,7 +16,8 @@ model User {
   password String
 
   addresses Address[]
-  Client    Client[]
+  clients   Client[]
+  invoices  Invoice[]
 }
 
 model Address {
@@ -39,12 +40,12 @@ model Address {
 model Client {
   id String @id @default(uuid())
 
-  name    String
-  email   String
-  address Address?
-  invoice Invoice[]
-  user    User      @relation(fields: [userId], references: [id])
-  userId  String
+  name     String
+  email    String
+  address  Address?
+  invoices Invoice[]
+  user     User      @relation(fields: [userId], references: [id])
+  userId   String
 }
 
 model Invoice {
@@ -52,8 +53,11 @@ model Invoice {
 
   address Address?
 
-  Client   Client? @relation(fields: [clientId], references: [id])
+  client   Client? @relation(fields: [clientId], references: [id])
   clientId String?
+
+  user    User   @relation(fields: [ownerId], references: [id])
+  ownerId String
 
   date               DateTime @default(now())
   paymentTerms       String
@@ -68,6 +72,6 @@ model Item {
   quantity Int
   price    Float
 
-  invoice   Invoice @relation(fields: [invoiceId], references: [id])
+  invoice   Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
   invoiceId String
 }

@@ -1,6 +1,10 @@
-import { IsString } from 'class-validator';
+import { IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class CreateAddressDto {
+  @IsOptional()
+  @IsUUID()
+  id?: string;
+
   @IsString()
   streetAddress: string;
 
